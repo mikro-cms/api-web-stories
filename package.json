@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/mikro-cms/api-web-stories/issues"
   },
-  "homepage": "https://github.com/mikro-cms/api-web-stories#readme"
+  "homepage": "https://github.com/mikro-cms/api-web-stories#readme",
+  "dependencies": {
+    "multer": "^1.4.2"
+  }
 }
