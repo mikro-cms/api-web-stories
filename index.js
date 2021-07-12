@@ -1,3 +1,6 @@
 module.exports = {
-  migration: require('./migration.js')
+  migration: require('./migration.js'),
+  upload: [
+    'webstories'
+  ]
 };
