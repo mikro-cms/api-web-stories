@@ -16,7 +16,13 @@ const uploadImageConfig = multer({
     fileSize: 5242880
   },
   fileFilter: function (req, file, cb) {
-    if (file.mimetype !== 'image/png') {
+    const allowedImage = [
+      'image/png',
+      'image/jpg',
+      'image/jpeg'
+    ];
+
+    if (allowedImage.indexOf(file.mimetype) < 0) {
       cb('webstories.image_format', false);
     } else {
       cb(null, true);
@@ -42,13 +48,16 @@ function handlerImageUpload(req, res, next) {
   });
 }
 
-async function handlerAddStatus(req, res) {
+async function handlerAddStatus(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
+    res.result = {
+      'status': 400,
       'message': res.transValidator(errors.array({ onlyFirstError: true }))
-    });
+    };
+
+    return next();
   }
 
   labelWebStories = await modelLabel.findOne({
@@ -56,9 +65,12 @@ async function handlerAddStatus(req, res) {
   });
 
   if (labelWebStories === null) {
-    return res.status(500).json({
+    res.result = {
+      'status': 500,
       'message': res.trans('webstories.label_not_found')
-    });
+    };
+
+    return next();
   }
 
   const post = {
@@ -78,14 +90,17 @@ async function handlerAddStatus(req, res) {
   const createdPost = await plugin.createPost(post);
 
   if (createdPost) {
-    res.json({
+    res.result ={
       'message': res.trans('webstories.add_status_success')
-    });
+    };
   } else {
-    res.status(400).json({
+    res.result = {
+      'status': 400,
       'message': res.trans('webstories.add_status_failed')
-    });
+    };
   }
+
+  return next();
 }
 
 module.exports = [

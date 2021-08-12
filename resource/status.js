@@ -2,13 +2,16 @@ const { query, validationResult } = require('express-validator/check');
 const modelPost = require('@mikro-cms/models/post');
 const mockPost = require('./mock/post');
 
-async function handlerListStatus(req, res) {
+async function handlerListStatus(req, res, next) {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({
+    res.result = {
+      'status': 400,
       'message': res.transValidator(errors.array({ onlyFirstError: true }))
-    });
+    };
+
+    return next();
   }
 
   const offset = req.query.offset || 0;
@@ -51,10 +54,13 @@ async function handlerListStatus(req, res) {
 
   const totalPosts = await modelPost.countDocuments(query);
 
-  res.json({
-    posts: posts,
-    total: totalPosts
-  });
+  res.result = {
+    'status': 200,
+    'posts': posts,
+    'total': totalPosts
+  };
+
+  next();
 }
 
 module.exports = [
