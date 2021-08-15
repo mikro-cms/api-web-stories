@@ -1,6 +1,6 @@
 {
   "name": "@mikro-cms/api-web-stories",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Package api mikro cms web stories",
   "main": "index.js",
   "scripts": {
