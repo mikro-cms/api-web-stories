@@ -45,7 +45,12 @@ async function handlerListStatus(req, res, next) {
   .limit(parseInt(length));
 
   if (posts === null) {
-    res.json({ posts: [], total: 0 });
+    res.result = {
+      'posts': [],
+      'total': 0
+    };
+
+    return next();
   } else {
     for (var postIndex in posts) {
       posts[postIndex] = mockPost(posts[postIndex]);
