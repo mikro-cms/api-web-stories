@@ -1,5 +1,9 @@
 module.exports = {
   'webstories': {
+    'setting_empty': 'no setting available',
+    'title_required': 'title could not be empty',
+    'type_required': 'type could not be empty',
+    'edit_setting_success': 'successful save setting',
     'content_required': 'status content could not be empty',
     'font_required': 'status font could not be empty',
     'image_format': 'status only allowed file with image type',
